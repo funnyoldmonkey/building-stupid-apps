@@ -1,112 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web App</title>
+    <title>My Portfolio</title>
     <style>
-        body {
+        .portfolio-photo {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .portfolio-details {
             font-family: Arial, sans-serif;
-            text-align: center;
-        }
-
-        h1 {
-            color: #333;
-        }
-
-        label {
-            font-weight: bold;
-        }
-
-        input[type="text"], select, textarea {
-            margin: 10px;
-            padding: 5px;
-        }
-
-        button {
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        #results {
-            margin: 20px;
-            padding: 10px;
-            border: 1px solid #ccc;
+            margin-top: 20px;
         }
     </style>
 </head>
+
 <body>
-    <h1>Web App</h1>
-    <label for="urlInput">Enter URL:</label>
-    <input type="text" id="urlInput" placeholder="https://example.com">
-    <br>
-    <label for="fileType">Select File Type:</label>
-    <select id="fileType">
-        <option value="JS">JS</option>
-        <option value="CSS">CSS</option>
-        <option value="XHR">XHR</option>
-        <option value="XML">XML</option>
-    </select>
-    <br>
-    <label for="textInput">Enter Text to Search:</label>
-    <textarea id="textInput" rows="4" cols="50" placeholder="Enter text to search"></textarea>
-    <br>
-    <button id="searchButton">Search</button>
-    <div id="results"></div>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const urlInput = document.getElementById("urlInput");
-            const fileTypeSelect = document.getElementById("fileType");
-            const textInput = document.getElementById("textInput");
-            const searchButton = document.getElementById("searchButton");
-            const resultsDiv = document.getElementById("results");
-
-            searchButton.addEventListener("click", async () => {
-                resultsDiv.innerHTML = ""; // Clear previous results
-
-                const url = urlInput.value;
-                const fileType = fileTypeSelect.value;
-                const searchText = textInput.value;
-
-                try {
-                    const response = await fetch(url);
-                    if (!response.ok) {
-                        throw new Error("Network request failed. Check the URL.");
-                    }
-                    const text = await response.text();
-
-                    // Check for 'https://' and add if missing
-                    const correctedUrl = url.startsWith("http://") ? "https://" + url.slice(7) : url;
-
-                    // Search for the text in the response
-                    const startIndex = text.indexOf(searchText);
-                    if (startIndex !== -1) {
-                        resultsDiv.innerHTML = `<p>Text found in ${fileType} file on ${correctedUrl}:</p>`;
-                        const endIndex = startIndex + searchText.length;
-                        const snippet = text.substring(startIndex - 50, endIndex + 50);
-                        const highlightedSnippet = snippet.replace(
-                            new RegExp(searchText, "g"),
-                            '<span style="background-color: yellow;">$&</span>'
-                        );
-                        resultsDiv.innerHTML += `<pre>${highlightedSnippet}</pre>`;
-                        console.log(`Text found in ${fileType} file on ${correctedUrl}`);
-                    } else {
-                        resultsDiv.innerHTML = `<p>Text not found in ${fileType} file on ${correctedUrl}</p>`;
-                        console.log(`Text not found in ${fileType} file on ${correctedUrl}`);
-                    }
-                } catch (error) {
-                    resultsDiv.innerHTML = `<p>Error: ${error.message}</p>`;
-                    console.error(error);
-                }
-            });
-        });
-    </script>
+    <img src="path/to/your/photo.jpg" alt="My Photo" class="portfolio-photo">
+    <div class="portfolio-details">
+        <h1>John Doe</h1>
+        <p>Full Stack Developer</p>
+        <p>Location: City, Country</p>
+        <p>Email: john.doe@example.com</p>
+        <p>Phone: +1234567890</p>
+        <h2>About Me</h2>
+        <p>I am a passionate developer with experience in web development.</p>
+        <h2>Skills</h2>
+        <ul>
+            <li>HTML</li>
+            <li>CSS</li>
+            <li>JavaScript</li>
+            <li>React</li>
+            <li>Node.js</li>
+        </ul>
+        <h2>Projects</h2>
+        <ul>
+            <li>Project 1 - Description</li>
+            <li>Project 2 - Description</li>
+        </ul>
+    </div>
 </body>
+
 </html>
