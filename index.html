@@ -1,48 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portfolio</title>
+    <title>Counter Striker</title>
     <style>
-        .portfolio-photo {
-            max-width: 100%;
-            height: auto;
+        body {
+            margin: 0;
+            overflow: hidden;
         }
-
-        .portfolio-details {
-            font-family: Arial, sans-serif;
-            margin-top: 20px;
+        #gameCanvas {
+            background-color: #000;
+            display: block;
+            margin: 0 auto;
         }
     </style>
 </head>
-
 <body>
-    <img src="path/to/your/photo.jpg" alt="My Photo" class="portfolio-photo">
-    <div class="portfolio-details">
-        <h1>John Doe</h1>
-        <p>Full Stack Developer</p>
-        <p>Location: City, Country</p>
-        <p>Email: john.doe@example.com</p>
-        <p>Phone: +1234567890</p>
-        <h2>About Me</h2>
-        <p>I am a passionate developer with experience in web development.</p>
-        <h2>Skills</h2>
-        <ul>
-            <li>HTML</li>
-            <li>CSS</li>
-            <li>JavaScript</li>
-            <li>React</li>
-            <li>Node.js</li>
-        </ul>
-        <h2>Projects</h2>
-        <ul>
-            <li>Project 1 - Description</li>
-            <li>Project 2 - Description</li>
-        </ul>
-    </div>
-</body>
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
 
+        const player = {
+            x: 400,
+            y: 300,
+            width: 20,
+            height: 20,
+            speed: 5,
+            health: 100
+        };
+
+        const enemies = [
+            { x: 100, y: 100, width: 20, height: 20, speed: 3, health: 50 },
+            { x: 200, y: 200, width: 20, height: 20, speed: 3, health: 50 },
+            { x: 300, y: 300, width: 20, height: 20, speed: 3, health: 50 },
+            { x: 400, y: 400, width: 20, height: 20, speed: 3, health: 50 },
+            { x: 500, y: 500, width: 20, height: 20, speed: 3, health: 50 }
+        ];
+
+        function gameLoop() {
+            update();
+            draw();
+            requestAnimationFrame(gameLoop);
+        }
+
+        function update() {
+            // Player movement
+            if (keys['ArrowUp']) {
+                player.y -= player.speed;
+            }
+            if (keys['ArrowDown']) {
+                player.y += player.speed;
+            }
+            if (keys['ArrowLeft']) {
+                player.x -= player.speed;
+            }
+            if (keys['ArrowRight']) {
+                player.x += player.speed;
+            }
+
+            // Enemy movement
+            enemies.forEach(enemy => {
+                // Implement enemy AI here
+            });
+
+            // Check for collisions
+            checkCollisions();
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw player
+            ctx.fillStyle = 'blue';
+            ctx.fillRect(player.x, player.y, player.width, player.height);
+
+            // Draw enemies
+            ctx.fillStyle = 'red';
+            enemies.forEach(enemy => {
+                ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
+            });
+
+            // Display health
+            ctx.fillStyle = 'white';
+            ctx.fillText(`Player Health: ${player.health}`, 10, 20);
+            enemies.forEach((enemy, index) => {
+                ctx.fillText(`Enemy ${index + 1} Health: ${enemy.health}`, 10, 40 + (index * 20));
+            });
+        }
+
+        function checkCollisions() {
+            // Check for collisions between player and enemies
+            enemies.forEach(enemy => {
+                if (player.x < enemy.x + enemy.width &&
+                    player.x + player.width > enemy.x &&
+                    player.y < enemy.y + enemy.height &&
+                    player.y + player.height > enemy.y) {
+                    // Collision detected, decrease player health
+                    player.health -= 10;
+                    enemy.health -= 10;
+                }
+            });
+        }
+
+        // Keyboard input
+        const keys = {};
+        window.addEventListener('keydown', e => {
+            keys[e.key] = true;
+        });
+        window.addEventListener('keyup', e => {
+            keys[e.key] = false;
+        });
+
+        // Start the game loop
+        gameLoop();
+    </script>
+</body>
 </html>
